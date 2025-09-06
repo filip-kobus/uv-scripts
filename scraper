@@ -1,0 +1,41 @@
+#!/usr/bin/env -S uv run --script
+#
+# Description: opens a webpage, clean it up, and copy markdown to clipboard
+# Usage scraper <url>
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "crawl4ai",
+#     "pyperclip",
+# ]
+# ///
+
+import sys
+import asyncio
+from crawl4ai import *
+import pyperclip
+
+async def main():
+    md_generator = DefaultMarkdownGenerator(
+        content_filter=filter,
+        options={"ignore_links": True}
+    )
+    run_config = CrawlerRunConfig(
+        markdown_generator=md_generator,
+        excluded_tags=['a', 'form', 'header', 'aside', 'nav', 'footer'],
+        word_count_threshold=10,
+        cache_mode=CacheMode.BYPASS
+    )
+    if len(sys.argv) < 2:
+        script_name = sys.argv[0].split("/")[-1].split("\\")[-1].replace(".py", "")
+        print(f"Usage: python {script_name} <url>")
+        sys.exit(1)
+    url = sys.argv[1]
+    async with AsyncWebCrawler() as crawler:
+        result = await crawler.arun(url=url, config=run_config)
+    pyperclip.copy(result.markdown)
+    print("Copied cleaned markdown to clipboard.")
+
+if __name__ == "__main__":
+    asyncio.run(main())
