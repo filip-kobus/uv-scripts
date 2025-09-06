@@ -1,8 +1,8 @@
 # 🚀 uv-scripts
 
-A collection of Python scripts designed to work seamlessly with [uv](https://docs.astral.sh/uv/) for enhanced LLM and GenAI development workflows.
+A collection of Python scripts designed enhance LLM and GenAI development workflows.
 
-> **Note**: These scripts leverage uv's inline dependency management, making them easy to run without complex environment setup.
+> **Note**: These scripts leverage [uv](https://docs.astral.sh/uv/) inline dependency management, making them easy to run without complex environment setup.
 
 ---
 
@@ -11,7 +11,6 @@ A collection of Python scripts designed to work seamlessly with [uv](https://doc
 - [Quick Start](#-quick-start)
 - [How uv Scripts Work](#-how-uv-scripts-work)
 - [Available Scripts](#️-available-scripts)
-- [Contributing](#-contributing)
 
 ---
 
@@ -26,8 +25,8 @@ A collection of Python scripts designed to work seamlessly with [uv](https://doc
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/filip-kobus/AI-scripts.git
-   cd AI-scripts
+   git clone https://github.com/filip-kobus/uv-scripts.git
+   cd uv-scripts
    ```
 
 2. **Run any script directly**
