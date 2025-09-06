@@ -16,7 +16,16 @@ import asyncio
 from crawl4ai import *
 import pyperclip
 
-async def main():
+def get_script_name():
+    return sys.argv[0].rsplit("/", 1)[-1].rsplit("\\", 1)[-1].replace(".py", "")
+
+def get_url():
+    if len(sys.argv) < 2:
+        print(f"Usage: python {get_script_name()} <url>")
+        sys.exit(1)
+    return sys.argv[1]
+
+async def scrape(url):
     md_generator = DefaultMarkdownGenerator(
         content_filter=filter,
         options={"ignore_links": True}
@@ -27,14 +36,14 @@ async def main():
         word_count_threshold=10,
         cache_mode=CacheMode.BYPASS
     )
-    if len(sys.argv) < 2:
-        script_name = sys.argv[0].split("/")[-1].split("\\")[-1].replace(".py", "")
-        print(f"Usage: python {script_name} <url>")
-        sys.exit(1)
-    url = sys.argv[1]
     async with AsyncWebCrawler() as crawler:
         result = await crawler.arun(url=url, config=run_config)
-    pyperclip.copy(result.markdown)
+    return result.markdown
+
+async def main():
+    url = get_url()
+    markdown = await scrape(url)
+    pyperclip.copy(markdown)
     print("Copied cleaned markdown to clipboard.")
 
 if __name__ == "__main__":
